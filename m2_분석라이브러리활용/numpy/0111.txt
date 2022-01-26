@@ -1,0 +1,36 @@
+import numpy as np
+import pandas as pd
+
+customer = 1000
+
+array = np.zeros((customer,14),dtype = int)
+df = pd.DataFrame(array,(np.arange(1,customer+1)),columns = ['id','gender','age','product_19','product_20','price_19','price_20','quantity_19','quantity_20','time_19','time_20','amount_19','amount_20','sales'])
+np.random.seed(0)
+df.id = np.arange(1,customer+1)
+df.gender = np.random.choice(['M','F'],customer)
+df.age = np.random.randint(1,81,size=customer)
+df.product_19 = np.random.randint(11111,100000,size = customer)
+df.product_20 = np.random.randint(11111,100000,size = customer)
+
+pricearray= np.random.randint(10,500,size = 100000)*100
+
+for i in range(1,customer+1):
+    df.price_19[i] = pricearray[df.product_19[i]]
+    df.price_20[i] = pricearray[df.product_20[i]]
+
+df.quantity_19 = np.random.randint(1,101,size = customer)
+df.quantity_20 = np.random.randint(1,101,size = customer)
+
+df.time_19 = np.random.randint(1,25,size = customer)
+df.time_20 = np.random.randint(1,25,size = customer)
+
+df.amount_19 = df.price_19*df.quantity_19
+df.amount_20 = df.price_20*df.quantity_20
+
+for i in range(1,customer+1):
+    if df.amount_20[i]>df.amount_19[i]:
+        df.sales[i] = 1
+    else:
+        df.sales[i] = 0
+
+df

@@ -1,0 +1,47 @@
+import string
+import warnings
+warnings.filterwarnings('ignore')
+
+arr = np.zeros((1000,15))
+columns = ['id','gender','age','region','product_19','product_20','price_19','price_20','quantity_19','quantity_20','time_19','time_20','amount_19','amount_20','sales']
+index = [np.arange(1000)]
+df = pd.DataFrame(arr,index,columns = columns)
+
+id_arr = np.arange(1,1001) ; np.random.shuffle(id_arr) ; df.id = id_arr
+gender_ar = np.array(['남','여']) ; df.gender = np.array(np.random.choice(gender_ar) for _ in range(1000))
+df.age = np.random.randint(80,size = 1000)
+df.region = np.random.randint(10,size = 1000)
+def code(a):
+    li = []
+    for _ in range(a):
+        result = ""
+        for _ in range(2):
+            result += random.choice(string.ascii_uppercase)
+        for _ in range(3):
+            result += random.choice(string.digits)
+        li.append(result)
+    return np.array(li)
+df.product_19 = code(1000)
+df.product_20 = code(1000)
+df.price_19 = np.random.rand(1000)*499000+1000
+df.price_20 = np.random.rand(1000)*499000+1000
+df.quantity_19 = np.random.randint(1,101,size=1000)
+df.quantity_20 = np.random.randint(1,101,size=1000)
+time_ar = []
+for _ in range(1,25):                   # df.time_19 = np.random.randint(1,25,size=1000).astype(str)       # 이 방식 안돼..
+    time_ar.append(f'{_}'.zfill(2))     # df.time_19 = df.time_19.str.zfill(2)
+np.array(time_ar)
+df.time_19 = np.array(np.random.choice(time_ar) for _ in range(1000))
+df.time_20 = np.array(np.random.choice(time_ar) for _ in range(1000))
+# df.time_19 = np.random.randint(1,25,size=1000)
+# df.time_20 = np.random.randint(1,25,size=1000)
+df.amount_19 = df.price_19 * df.quantity_19
+df.amount_20 = df.price_20 * df.quantity_20
+for _ in range(1000):
+    if df.amount_19[_] <= df.amount_20[_]:
+        df.sales[_] = 1
+    else:
+        df.sales[_] = 0
+#pd.Series(df.sales).astype(int)
+pd.options.display.float_format = '{:.2f}'.format
+df

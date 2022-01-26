@@ -1,0 +1,31 @@
+import numpy as np
+import pandas as pd
+
+arr = np.zeros((10,15))
+col = ['ID','Gender','Age','Region','Product_19','Product_20','Price_19','Price_20',
+       'Quantity_19','Quantity_20','Time_19','Time_20','Amount_19','Amount_20','Sales']
+index = np.arange(1,11)
+df = pd.DataFrame(arr,index,col)
+
+p19 = np.random.uniform(1000,50001,10).round(2)
+q19 = np.random.randint(1,101,size=10)
+p20 = np.random.uniform(1000,50001,10).round(2)
+q20 = np.random.randint(1,101,size=10)
+
+df.ID = np.random.randint(1,1001,size=10)
+df.Gender = np.random.randint(2,size=10)
+df.Age = np.random.randint(80,size=10)
+df.Region = np.random.randint(1,11,size=10)
+df.Product_19 = np.random.randint(11111,100000,size=10)
+df.Product_20 = np.random.randint(11111,100000,size=10)
+df.Price_19 = p19
+df.Price_20 = p20
+df.Quantity_19 = q19
+df.Quantity_20 = q20
+df.Time_19 = np.random.randint(1,25,size=10)
+df.Time_20 = np.random.randint(1,25,size=10)
+df.Amount_19 = p19*q19
+df.Amount_20 = p20*q20
+df.Sales = np.where(df.Amount_20-df.Amount_19>0,1,0)
+
+df
